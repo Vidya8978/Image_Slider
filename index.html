@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider - Famous Places</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Slider Container */
+    .slider {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slides img {
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    .prev:hover, .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Caption */
+    .caption {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider">
+    <div class="slides">
+      <img src="images/pexels-saji-kamalasanan-3182205-5491756.jpg" alt="Charminar">
+      <img src="images/pexels-manjose-19872.jpg" alt="Mount Kilimanjaro">
+      <img src="images/pexels-balazsimon-15994035.jpg" alt="Great Wall of China">
+    </div>
+    <button class="prev">❮</button>
+    <button class="next">❯</button>
+  </div>
+  <p class="caption">Charminar</p>
+
+  <script>
+    const slides = document.querySelector('.slides');
+    const images = document.querySelectorAll('.slides img');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    const caption = document.querySelector('.caption');
+
+    let currentIndex = 0;
+
+    // Function to show slide based on index
+    function showSlide(index) {
+      const slideWidth = images[0].clientWidth;
+      slides.style.transform = `translateX(${-index * slideWidth}px)`;
+      updateCaption(index);
+    }
+
+    // Function to update caption
+    function updateCaption(index) {
+      const captions = ["Charminar","Great Wall of China" , "Mount Kilimanjaro"];
+      caption.textContent = captions[index];
+    }
+
+    // Click event for next button
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showSlide(currentIndex);
+    });
+
+    // Click event for previous button
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showSlide(currentIndex);
+    });
+
+    // Auto-sliding every 3 seconds
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showSlide(currentIndex);
+    }, 3000);
+
+    showSlide(currentIndex);
+  </script>
+</body>
+</html>
